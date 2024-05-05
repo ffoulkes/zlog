@@ -4,6 +4,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+
+set(zlog_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
+set(zlog_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
+set(zlog_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+
 ###################
 # zlog_o (object) #
 ###################
@@ -105,7 +112,7 @@ target_link_libraries(zlog-chk-conf PUBLIC zlog)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set_target_properties(zlog-chk-conf PROPERTIES
-        INSTALL_RPATH "$ORIGIN/../lib"
+        INSTALL_RPATH "$ORIGIN/../${zlog_INSTALL_LIBDIR}"
     )
 endif()
 
@@ -115,14 +122,53 @@ endif()
 
 install(
     TARGETS zlog zlog_s zlog-chk-conf
+    EXPORT ZlogTargets
     COMPONENT zlog
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION ${zlog_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${zlog_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${zlog_INSTALL_BINDIR}
 )
 
 install(
     FILES zlog.h
     COMPONENT zlog
-    DESTINATION include
+    DESTINATION ${zlog_INSTALL_INCLUDEDIR}
+)
+
+###############
+# config-file #
+###############
+
+install(
+    EXPORT ZlogTargets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE zlog::
+    DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+configure_package_config_file(
+    zlogConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    COMPONENT
+        zlog
+    DESTINATION
+        ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+set_target_properties(zlog PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+)
+
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION "${PROJECT_VERSION}"
+    COMPATIBILITY SameMajorVersion
 )
