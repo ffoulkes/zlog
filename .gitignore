@@ -290,4 +290,13 @@ $RECYCLE.BIN/
 # build folder
 /build/
 
+# local install tree
+/install/
+
+# VS Code folder
+/.vscode/
+
+# Slickedit folder
+/.vslick/
+
 # End of https://www.toptal.com/developers/gitignore/api/c,c++,bazel,cmake,linux,macos,windows,jetbrains+all,visualstudiocode
