@@ -16,7 +16,7 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-project(zlog VERSION 1.2.12)
+project(zlog VERSION 1.2.16)
 
 set(CMAKE_MODULE_PATH ${zlog_SOURCE_DIR}/cmake)
 
