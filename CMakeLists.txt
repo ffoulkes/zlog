@@ -14,25 +14,26 @@
 # limitations under the License.
 #/
 
-cmake_minimum_required(VERSION 2.8.5)
+cmake_minimum_required(VERSION 3.0)
 
-message(STATUS "path : ${CMAKE_FIND_ROOT_PATH}")
-project(zlog)
-message(STATUS "path : ${CMAKE_FIND_ROOT_PATH}")
+project(zlog VERSION 1.2.12)
 
 set(CMAKE_MODULE_PATH ${zlog_SOURCE_DIR}/cmake)
 
-SET(CPACK_PACKAGE_VERSION_MAJOR "1")
-SET(CPACK_PACKAGE_VERSION_MINOR "2")
-SET(CPACK_PACKAGE_VERSION_PATCH "12")
+SET(CPACK_PACKAGE_VERSION_MAJOR "${zlog_VERSION_MAJOR}")
+SET(CPACK_PACKAGE_VERSION_MINOR "${zlog_VERSION_MINOR}")
+SET(CPACK_PACKAGE_VERSION_PATCH "${zlog_VERSION_PATCH}")
+SET(CPACK_PACKAGE_VERSION "${zlog_VERSION_MAJOR}.${zlog_VERSION_MINOR}.${zlog_VERSION_PATCH}")
+
 SET(CPACK_RPM_PACKAGE_RELEASE 1) # release version.
-SET(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
-SET(ZLOG_VERSION ${CPACK_PACKAGE_VERSION})
-SET(ZLOG_SO_VERSION ${CPACK_PACKAGE_VERSION_MAJOR})
+
+SET(ZLOG_VERSION ${zlog_VERSION})
+SET(ZLOG_SO_VERSION ${zlog_VERSION_MAJOR})
 
 message(STATUS "platform : ${CMAKE_SYSTEM}")
 
-add_definitions("-g -Wall -Wstrict-prototypes")
+add_compile_options(-g -Wall -Wstrict-prototypes)
+
 set(CMAKE_C_FLAGS "-std=c99 -pedantic -D_DEFAULT_SOURCE")
 set(CMAKE_C_FLAGS_DEBUG "-ggdb3 -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE "-O2")
@@ -42,9 +43,9 @@ if (WIN32)
 endif ()
 
 cmake_policy(SET CMP0015 NEW)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${zlog_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${zlog_BINARY_DIR}/lib")
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${zlog_BINARY_DIR}/bin")
 
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
@@ -55,7 +56,7 @@ if (WIN32)
     set(Need_UNIXEM 1)
 endif ()
 
-include(cmake/LoadLibraries.cmake)
+include(LoadLibraries)
 
 add_subdirectory(src)
 add_subdirectory(cpack)
