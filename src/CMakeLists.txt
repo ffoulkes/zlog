@@ -130,7 +130,7 @@ install(
 )
 
 install(
-    FILES zlog.h
+    FILES zlog.h category.h
     COMPONENT zlog
     DESTINATION ${zlog_INSTALL_INCLUDEDIR}
 )
