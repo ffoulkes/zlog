@@ -138,6 +138,19 @@ install(
       PATTERN "*.h"
 )
 
+###################
+# pkg-config file #
+###################
+
+set(_pkgconfig_file ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/zlog.pc)
+
+configure_file(cmake/pkgconfig.cmake.in ${_pkgconfig_file} @ONLY)
+
+install(
+  FILES ${_pkgconfig_file}
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+)
+
 ###############
 # config-file #
 ###############
@@ -150,7 +163,7 @@ install(
 )
 
 configure_package_config_file(
-    zlogConfig.cmake.in
+    cmake/zlogConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
     INSTALL_DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )

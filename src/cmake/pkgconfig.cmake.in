@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: target-syslibs
+Description: System abstraction libraries
+URL: https://github.com/p4lang/target-syslibs.git
+Version: @VERSION@
+Libs: -L${libdir} -ltarget_sys
+Cflags: -I${includedir}
