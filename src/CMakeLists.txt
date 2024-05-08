@@ -178,11 +178,6 @@ install(
         ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-set_target_properties(zlog PROPERTIES
-    VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
-)
-
 write_basic_package_version_file(
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
     VERSION "${PROJECT_VERSION}"
