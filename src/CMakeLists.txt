@@ -144,7 +144,7 @@ install(
 
 set(_pkgconfig_file ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/zlog.pc)
 
-configure_file(cmake/pkgconfig.cmake.in ${_pkgconfig_file} @ONLY)
+configure_file(cmake/zlog.pc.in ${_pkgconfig_file} @ONLY)
 
 install(
   FILES ${_pkgconfig_file}

@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: zlog
+Description: C logging library
+URL: https://github.com/HardySimpson/zlog
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lzlog
+Cflags: -I${includedir}
