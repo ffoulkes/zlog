@@ -120,9 +120,15 @@ endif()
 # install #
 ###########
 
+# Name of the EXPORT object
+set(EXPORTNAME zlog)
+
+# CMake package name
+set(PKGNAME zlog)
+
 install(
     TARGETS zlog zlog_s zlog-chk-conf
-    EXPORT ZlogTargets
+    EXPORT ${EXPORTNAME}
     COMPONENT zlog
     ARCHIVE DESTINATION ${zlog_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${zlog_INSTALL_LIBDIR}
@@ -147,8 +153,8 @@ set(_pkgconfig_file ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/zlog.pc)
 configure_file(cmake/zlog.pc.in ${_pkgconfig_file} @ONLY)
 
 install(
-  FILES ${_pkgconfig_file}
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    FILES ${_pkgconfig_file}
+    DESTINATION ${zlog_INSTALL_LIBDIR}/pkgconfig
 )
 
 ###############
@@ -156,30 +162,30 @@ install(
 ###############
 
 install(
-    EXPORT ZlogTargets
-    FILE ${PROJECT_NAME}Targets.cmake
+    EXPORT ${EXPORTNAME}
+    FILE ${PKGNAME}-targets.cmake
     NAMESPACE zlog::
-    DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PKGNAME}
 )
 
 configure_package_config_file(
-    cmake/zlogConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    INSTALL_DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    cmake/${PKGNAME}-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PKGNAME}-config.cmake
+    INSTALL_DESTINATION ${zlog_INSTALL_LIBDIR}/cmake/${PKGNAME}
 )
 
 install(
     FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PKGNAME}-config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PKGNAME}-config-version.cmake
     COMPONENT
         zlog
     DESTINATION
-        ${zlog_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+        ${zlog_INSTALL_LIBDIR}/cmake/${PKGNAME}
 )
 
 write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PKGNAME}-config-version.cmake
     VERSION "${PROJECT_VERSION}"
     COMPATIBILITY SameMajorVersion
 )
